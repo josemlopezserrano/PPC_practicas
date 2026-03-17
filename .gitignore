@@ -1,0 +1,6 @@
+out/
+*.class
+*.jar
+*.DS_Store
+conversaciones/
+Pr_cticas/

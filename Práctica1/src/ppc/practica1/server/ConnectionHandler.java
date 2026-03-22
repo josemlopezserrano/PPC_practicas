@@ -59,7 +59,7 @@ public class ConnectionHandler implements Runnable {
 
         // 4. Construir HTML con el historial actualizado
         LinkedHashMap<String, Integer> history = CookieManager.parse(newCookieValue);
-        String html = CookieManager.buildHtml(history);
+        String html = CookieManager.buildHtml(history, req.getPath());
 
         // 5. Enviar respuesta con Set-Cookie
         HttpResponse resp = HttpResponse.ok(html)

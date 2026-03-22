@@ -67,7 +67,7 @@ Práctica1/
     │   ├── HttpsListener.java
     │   ├── ConnectionHandler.java
     │   └── SslContextFactory.java
-    └── client/           Fase 3 — cliente Java de consola (PENDIENTE)
+    └── client/           Fase 3 — cliente Java de consola
         ├── Client.java
         └── CookieStore.java
 ```
@@ -125,7 +125,7 @@ El flag `secure` (true/false) que recibe `ConnectionHandler` solo afecta al atri
 - **`ConnectionHandler.java`** — orquesta el procesamiento: parsea con `HttpRequest`, lee/actualiza cookie con `CookieManager`, construye `HttpResponse` y envía. Rechaza no-GET con 405
 - **`SslContextFactory.java`** — crea el `SSLServerSocket` con autenticación mutua (TLSv1.2, `setNeedClientAuth(true)`). Carga `servidor.ks` y `ca.ks`. **Necesita los keystores de la Fase 4 para funcionar**
 
-### Paquete `client` (Fase 3 — PENDIENTE)
+### Paquete `client` (Fase 3)
 
 - **`Client.java`** — `main` del cliente de consola. Pide URL al usuario, abre conexión HTTP o HTTPS, envía GET, recibe respuesta y la vuelca (cabeceras + HTML). Usa `CookieStore` para persistencia
 - **`CookieStore.java`** — lee/escribe la cookie en `cookies.dat`. Permite mantener el historial entre ejecuciones del cliente
@@ -138,7 +138,7 @@ El flag `secure` (true/false) que recibe `ConnectionHandler` solo afecta al atri
 |------|-----------|--------|
 | 1 | Clases comunes: `HttpRequest`, `HttpResponse`, `CookieManager` | ✅ Completada |
 | 2 | Servidor: `Server`, `HttpListener`, `HttpsListener`, `ConnectionHandler`, `SslContextFactory` | ✅ Completada |
-| 3 | Cliente Java de consola: `Client`, `CookieStore` | ⏳ Pendiente |
+| 3 | Cliente Java de consola: `Client`, `CookieStore` | ✅ Completada |
 | 4 | Certificados X.509: CA raíz, cert servidor (CN=localhost), cert cliente (CN=nombre alumno) + keystores JKS | ⏳ Pendiente |
 | 5 | Activar HTTPS: completar `SslContextFactory` con keystores + probar con navegador | ⏳ Pendiente |
 | 6 | Pulir y entregar: vídeo (3 escenarios), memoria técnica PDF, zip de entrega | ⏳ Pendiente |
@@ -172,7 +172,12 @@ Zip con:
 
 ## Notas de colaboración
 
-- El alumno es **José Manuel López Serrano** (CN del certificado cliente = su nombre)
+- El alumno es **José María López Serrano** (CN del certificado cliente = su nombre)
 - Los commits se hacen **solo a nombre del alumno**, sin línea Co-Authored-By
+- Antes de hacer un commit, configurar git si es necesario:
+  ```
+  git config user.name "Jose Maria Lopez Serrano"
+  git config user.email "josemlopezserrano@correo.ugr.es"
+  ```
 - Repositorio: `https://github.com/josemlopezserrano/PPC_practicas.git` (rama `master`)
 - `.gitignore` excluye: `out/`, `*.class`, `conversaciones/`, `Pr_cticas/`

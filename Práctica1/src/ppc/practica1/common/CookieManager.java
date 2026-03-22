@@ -68,10 +68,12 @@ public class CookieManager {
 
     /**
      * Genera el cuerpo HTML de la respuesta a partir del historial.
+     *
+     * @param history      mapa actualizado recurso→contador
+     * @param lastResource recurso de la petición actual (se muestra como "último solicitado")
      */
-    public static String buildHtml(LinkedHashMap<String, Integer> history) {
-        String lastResource = history.isEmpty() ? "(ninguno)"
-                : history.keySet().toArray(new String[0])[history.size() - 1];
+    public static String buildHtml(LinkedHashMap<String, Integer> history, String lastResource) {
+        if (lastResource == null || lastResource.isEmpty()) lastResource = "(ninguno)";
         int totalRequests   = history.values().stream().mapToInt(Integer::intValue).sum();
 
         StringBuilder rows = new StringBuilder();

@@ -123,7 +123,7 @@ El flag `secure` (true/false) que recibe `ConnectionHandler` solo afecta al atri
 - **`HttpListener.java`** — bucle `accept()` en puerto 8080. Por cada conexión lanza `new Thread(new ConnectionHandler(socket, false))`
 - **`HttpsListener.java`** — igual pero con `SSLServerSocket` en puerto 4430 y `ConnectionHandler(socket, true)`
 - **`ConnectionHandler.java`** — orquesta el procesamiento: parsea con `HttpRequest`, lee/actualiza cookie con `CookieManager`, construye `HttpResponse` y envía. Rechaza no-GET con 405
-- **`SslContextFactory.java`** — crea el `SSLServerSocket` con autenticación mutua (TLSv1.2, `setNeedClientAuth(true)`). Carga `servidor.ks` y `ca.ks`. Los keystores están disponibles desde la Fase 4 (pendiente activar en Fase 5)
+- **`SslContextFactory.java`** — crea el `SSLServerSocket` con autenticación mutua (TLSv1.2, `setNeedClientAuth(true)`). Carga `servidor.ks` y `ca.ks`. También ofrece `createClientSocket(host, port)` para el cliente Java
 
 ### Paquete `client` (Fase 3)
 
@@ -140,7 +140,7 @@ El flag `secure` (true/false) que recibe `ConnectionHandler` solo afecta al atri
 | 2 | Servidor: `Server`, `HttpListener`, `HttpsListener`, `ConnectionHandler`, `SslContextFactory` | ✅ Completada |
 | 3 | Cliente Java de consola: `Client`, `CookieStore` | ✅ Completada |
 | 4 | Certificados X.509: CA raíz, cert servidor (CN=localhost), cert cliente (CN=nombre alumno) + keystores JKS | ✅ Completada |
-| 5 | Activar HTTPS: completar `SslContextFactory` con keystores + probar con navegador | ⏳ Pendiente |
+| 5 | Activar HTTPS: completar `SslContextFactory` con keystores + probar con navegador | ✅ Completada |
 | 6 | Pulir y entregar: vídeo (3 escenarios), memoria técnica PDF, zip de entrega | ⏳ Pendiente |
 
 ---

@@ -4,6 +4,7 @@ import ppc.practica1.common.Constants;
 
 import javax.net.ssl.*;
 import java.io.FileInputStream;
+import java.net.Socket;
 import java.security.KeyStore;
 
 /**
@@ -38,6 +39,28 @@ public class SslContextFactory {
         serverSocket.setNeedClientAuth(true);
 
         return serverSocket;
+    }
+
+    public static Socket createClientSocket(String host, int port) throws Exception {
+        // Keystore del cliente (clave privada + certificado del cliente)
+        KeyStore clientKs = loadKeyStore(Constants.CL_STORE, Constants.CL_PWD);
+        // Truststore: certificado de la CA (para verificar el certificado del servidor)
+        KeyStore caKs     = loadKeyStore(Constants.CA_STORE, Constants.CA_PWD);
+
+        KeyManagerFactory kmf = KeyManagerFactory.getInstance(
+                KeyManagerFactory.getDefaultAlgorithm());
+        kmf.init(clientKs, Constants.CL_CERT_PWD);
+
+        TrustManagerFactory tmf = TrustManagerFactory.getInstance(
+                TrustManagerFactory.getDefaultAlgorithm());
+        tmf.init(caKs);
+
+        SSLContext ctx = SSLContext.getInstance("TLSv1.2");
+        ctx.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+
+        SSLSocket socket = (SSLSocket) ctx.getSocketFactory().createSocket(host, port);
+        socket.setEnabledProtocols(new String[]{"TLSv1.2"});
+        return socket;
     }
 
     private static KeyStore loadKeyStore(String path, char[] password) throws Exception {

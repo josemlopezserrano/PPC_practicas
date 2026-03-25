@@ -2,6 +2,7 @@ package ppc.practica1.client;
 
 import ppc.practica1.common.Constants;
 import ppc.practica1.common.HttpResponse;
+import ppc.practica1.server.SslContextFactory;
 
 import java.io.*;
 import java.net.Socket;
@@ -15,7 +16,7 @@ import java.util.Scanner;
  * El cliente construye la petición GET, la envía al servidor,
  * vuelca la respuesta completa por pantalla y persiste la cookie.
  *
- * HTTPS: pendiente de activar en Fase 5 (requiere certificados de Fase 4).
+ * HTTPS: si el puerto es HTTPS_PORT (4430) abre un SSLSocket con autenticación mutua.
  */
 public class Client {
 
@@ -58,7 +59,17 @@ public class Client {
             System.out.print(request);
 
             // --- Enviar petición y recibir respuesta ---
-            try (Socket socket = new Socket(host, port)) {
+            boolean useHttps = (port == Constants.HTTPS_PORT);
+            Socket socket;
+            try {
+                socket = useHttps
+                        ? SslContextFactory.createClientSocket(host, port)
+                        : new Socket(host, port);
+            } catch (Exception e) {
+                System.err.println("[Cliente] Error al abrir conexión: " + e.getMessage());
+                continue;
+            }
+            try (socket) {
                 // Enviar
                 OutputStream out = socket.getOutputStream();
                 out.write(request.getBytes(StandardCharsets.US_ASCII));
